@@ -1,0 +1,16 @@
+.vscode
+__pycache__/
+Figures/
+Data/
+Tests
+OLD/
+
+test*
+*.out
+*.dat
+*.txt
+*.mod
+*.x
+*.c
+*.sh
+*.png
