@@ -64,7 +64,7 @@ program main
     do j = 1, num_ic
         do while (.true.)
             call final_SALI(x(j), y(j), a, b, c, m, 1000, sali)
-            if (sali <  1e-12) then
+            if (sali < 1e-12) then
                 exit
             else
                 call random_number(x(j))

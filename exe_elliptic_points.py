@@ -24,7 +24,10 @@ y_range = {"upper": [0.3, 0.4], "lower": [0.05, 0.2]}
 
 os.system("rm -rf %s" % exe_file)
 print("Compiling the program...")
-comm = f"{compiler} params_qp.f90 functions.f90 {f90_file} -o {exe_file}" % (f90_file, exe_file)
+comm = f"{compiler} params_qp.f90 functions.f90 {f90_file} -o {exe_file}" % (
+    f90_file,
+    exe_file,
+)
 
 comm = f"{compiler} params_dp.f90 functions.f90 %s -o %s" % (f90_file, exe_file)
 print("$", comm)
@@ -39,7 +42,15 @@ print("sbatch script generated successfully.")
 print("Executing script...")
 for region in ["upper", "lower"]:
     for i in range(len(m)):
-        comm = "./%s %.5f %.5f %.5f %.5f %.5f 0 %s" % (exe_file, m[i], x_range[region][0], x_range[region][1], y_range[region][0], y_range[region][1], region)
+        comm = "./%s %.5f %.5f %.5f %.5f %.5f 0 %s" % (
+            exe_file,
+            m[i],
+            x_range[region][0],
+            x_range[region][1],
+            y_range[region][0],
+            y_range[region][1],
+            region,
+        )
         print("$", comm)
         os.system(comm)
 print("-" * len(comm))

@@ -23,7 +23,10 @@ y_range = {"upper": [0.12, 0.28], "lower": [0.08, 0.25]}
 
 os.system("rm -rf %s" % exe_file)
 print("Compiling the program...")
-comm = f"{compiler} params_qp.f90 functions.f90 {f90_file} -o {exe_file}" % (f90_file, exe_file)
+comm = f"{compiler} params_qp.f90 functions.f90 {f90_file} -o {exe_file}" % (
+    f90_file,
+    exe_file,
+)
 print("$", comm)
 os.system(comm)
 if os.path.isfile(exe_file):
@@ -34,7 +37,15 @@ else:
 
 for region in ["upper", "lower"]:
     for i in range(len(m)):
-        comm = "./%s %.5f %.5f %.5f %.5f %.5f 1 %s" % (exe_file, m[i], x_range[region][0], x_range[region][1], y_range[region][0], y_range[region][1], region)
+        comm = "./%s %.5f %.5f %.5f %.5f %.5f 1 %s" % (
+            exe_file,
+            m[i],
+            x_range[region][0],
+            x_range[region][1],
+            y_range[region][0],
+            y_range[region][1],
+            region,
+        )
         print("$", comm)
         os.system(comm)
 print("-" * len(comm))

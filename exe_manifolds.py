@@ -19,7 +19,10 @@ exe_file = file_prefix + ".x"
 
 os.system("rm -rf %s" % exe_file)
 print("Compiling the program...")
-comm = f"{compiler} params_qp.f90 functions.f90 {f90_file} -o {exe_file}" % (f90_file, exe_file)
+comm = f"{compiler} params_qp.f90 functions.f90 {f90_file} -o {exe_file}" % (
+    f90_file,
+    exe_file,
+)
 print("$", comm)
 os.system(comm)
 if os.path.isfile(exe_file):
