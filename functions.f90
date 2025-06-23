@@ -76,7 +76,7 @@ module functions
         do i = 1, N
             x_new = x_old
             y_new = y_old
-            call mapping(x_new, y_new, a, b, c, m)  ! Assuming mapping is a subroutine
+            call mapping(x_new, y_new, a, b, c, m)  
             aux_rn(1) = aux_rn(1) + w(i) * modulo(x_new - x_old, 1.0_wp)
             aux_rn(2) = aux_rn(2) + w(i) * ( a * (1 - y_new ** 2))
             x_old = x_new  ! Update x_old for the next iteration
@@ -90,6 +90,47 @@ module functions
         end if
     
     end subroutine rotation_number
+
+    subroutine rotation_number_v2(x0, y0, a, b, c, m, N, rn)
+        use, intrinsic :: ieee_arithmetic
+        implicit none
+        real(wp), intent(in) :: x0, y0, a, b, c, m
+        integer, intent(in) :: N
+        real(wp), intent(out) :: rn(2)
+        real(wp) :: x_old, y_old, x_new, y_new, S, w(N), u
+        integer :: i
+    
+        ! Initialize variables
+        x_old = x0
+        y_old = y0
+        rn = 0.0_wp
+    
+        ! Compute u and w
+        do i = 1, N
+            u = real(i, wp) / real(N, wp)
+            if (u == 0.0_wp .or. u == 1.0_wp) then
+                w(i) = 0.0_wp
+            else
+                w(i) = exp(-1.0_wp / (u * (1.0_wp - u)))
+            end if
+        end do
+    
+        ! Normalize w
+        S = sum(w)
+        w = w / S
+    
+        ! Compute the rotation number
+        do i = 1, N
+            x_new = x_old
+            y_new = y_old
+            call mapping(x_new, y_new, a, b, c, m)  
+            rn(1) = rn(1) + w(i) * modulo(x_new - x_old, 1.0_wp)
+            rn(2) = rn(2) + w(i) * (a * (1 - y_new ** 2))
+            x_old = x_new  ! Update x_old for the next iteration
+            y_old = y_new  ! Update y_old for the next iteration
+        end do
+
+    end subroutine rotation_number_v2
 
     subroutine is_fixed_point(x0, y0, a, b, c, m, period, eps, ifp)
         implicit none
