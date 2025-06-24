@@ -1,7 +1,7 @@
 import os
 import sys
 
-compiler = "gfortran"
+compiler = "ifx"
 
 if len(sys.argv) > 1:
     compiler = sys.argv[1]

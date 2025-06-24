@@ -6,7 +6,7 @@ program manifolds
     real(wp), parameter :: a = 0.805_wp
     real(wp), parameter :: b = 0.597_wp
     real(wp), parameter :: c = 0.005_wp
-    real(wp), parameter :: eps = 1e-6
+    real(wp), parameter :: eps = 1e-4
     ! --- Variables --- !
     integer :: i, j, k, l, ii
     integer :: num_ic
@@ -19,16 +19,7 @@ program manifolds
     character(len=10), dimension(2) :: chains = ["upper", "lower"]
     character(len=10), dimension(2) :: stabilities = ["stable  ", "unstable"]
     character(len=10), dimension(2) :: branches = ["upper", "lower"]
-    character :: path*100, datafile*200, user*20, home*100, arg*16
-
-    call get_environment_variable("USER", user)
-    call get_environment_variable("HOME", home)
-
-    if (trim(user) == "jdanilo") then
-        path = trim(home) // "/Matheus/Pesquisa/extended-standard-nontwist-map/"
-    else
-        path = trim(home) // "/Pesquisa/extended-standard-nontwist-map/"
-    end if
+    character :: datafile*200, arg*16
 
     ! --- Get the arguments --- !
     call getarg(1, arg)
@@ -37,21 +28,21 @@ program manifolds
     read(arg, *) num_ic
 
     ! --- Formats for the files used in the program --- !
-    1000 format(a, "Data/", a, "_hyperbolic_point_a=", f0.5, "_b=", f0.5, "_c=", f0.5, "_m=", f0.5, "_period=", i0, ".dat")
-    1100 format(a, "Data/", a , "_", a, "_manifold_a=", f0.5, "_b=", f0.5, "_c=", f0.5, "_m=", f0.5, "_period=", i0, "_nic=", i0, ".dat")
+    1000 format("Data/", a, "_hyperbolic_point_a=", f0.5, "_b=", f0.5, "_c=", f0.5, "_m=", f0.5, "_period=", i0, ".dat")
+    1100 format("Data/", a , "_", a, "_manifold_a=", f0.5, "_b=", f0.5, "_c=", f0.5, "_m=", f0.5, "_period=", i0, "_nic=", i0, ".dat")
 
     ! --- Get the iteration times for each manifold --- !
     call get_manifolds_times(m, times)
 
     ! --- Extract the hyperbolic points --- !
     ! Upper chain
-    write(unit=datafile, fmt=1000)trim(path), "upper", a, b, c, m, period
+    write(unit=datafile, fmt=1000)"upper", a, b, c, m, period
     open(10, file=trim(datafile), status="old", action="read")
     read(10, *) (xy_coordinates(1, j), j = 1, 2)
     close(10)
 
     ! Lower chain
-    write(unit=datafile, fmt=1000)trim(path), "lower", a, b, c, m, period
+    write(unit=datafile, fmt=1000)"lower", a, b, c, m, period
     open(10, file=trim(datafile), status="old", action="read")
     read(10, *) (xy_coordinates(2, j), j = 1, 2)
     close(10)
@@ -61,7 +52,7 @@ program manifolds
         y = xy_coordinates(i, 2)
         call eigenvalues_and_eigenvectors(x, y, a, b, c, m, period, eigvals, eigvectors)
         do j = 1, size(stabilities)
-            write(unit=datafile, fmt=1100) trim(path), trim(chains(i)), trim(stabilities(j)), a, b, c, m, period, num_ic
+            write(unit=datafile, fmt=1100) trim(chains(i)), trim(stabilities(j)), a, b, c, m, period, num_ic
             open(11, file=trim(datafile))
             do k = 1, size(branches)
                 allocate(w(num_ic, times(k, j, i), 2))

@@ -13,3 +13,6 @@ test*
 *.c
 *.sh
 *.png
+sbatch*
+rotation_number_compare.f90
+plot_manifolds.py

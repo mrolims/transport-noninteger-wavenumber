@@ -443,6 +443,7 @@ module functions
         !                    usu  usl  uuu  uul | lsu  lsl  luu  lul
         if (m == 1.0_wp) then
             times = reshape([180, 1, 1, 200, 200, 1, 180, 1], shape(times))
+            ! times = reshape([150, 1, 1, 1, 1, 1, 150, 1], shape(times))
             !times = reshape([1, 100, 1, 1, 1, 1, 1, 100], shape(times))
             !times = 110
         elseif (m == -1.0_wp) then

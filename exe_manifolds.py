@@ -1,7 +1,7 @@
 import os
 import sys
 
-compiler = "gfortran"
+compiler = "ifx"
 
 if len(sys.argv) > 1:
     compiler = sys.argv[1]
@@ -19,10 +19,8 @@ exe_file = file_prefix + ".x"
 
 os.system("rm -rf %s" % exe_file)
 print("Compiling the program...")
-comm = f"{compiler} params_qp.f90 functions.f90 {f90_file} -o {exe_file}" % (
-    f90_file,
-    exe_file,
-)
+comm = f"{compiler} params_qp.f90 functions.f90 {f90_file} -o {exe_file}"
+
 print("$", comm)
 os.system(comm)
 if os.path.isfile(exe_file):
@@ -37,6 +35,6 @@ ms = [1, -1, 2, -2, 3, -3, 4, -4, 0.5, -0.5, 1.5, -1.5, 2.5, -2.5, 3.4, -3.6, 3.
 
 for m in ms:
 
-    comm = "./%s %.5f %i" % (exe_file, m, num_ic)
+    comm = "./%s %.5f %i &" % (exe_file, m, num_ic)
     print("$", comm)
     os.system(comm)

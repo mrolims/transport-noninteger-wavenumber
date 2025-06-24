@@ -33,20 +33,12 @@ else:
 num_ic = int(1e4)
 y0s = [1, -1]
 esc_ys = [-1, 1]
-N = int(1e6)
+N = int(1e8)
 
-golden_ratio = (1 - np.sqrt(5)) / 2  # example definition if needed
-
-ms = [golden_ratio, -golden_ratio]
-
-# list of numbers whose square roots we want
-nums = [2.0, 3.0, 5.0, 6.0, 7.0, 8.0, 10.0, 11.0, 12.0, 13.0, 14.0]
-
-# extend values with sqrt and -sqrt of each number
-for n in nums:
-    root = np.sqrt(n)
-    ms.append(root)
-    ms.append(-root)
+m_ini = -10
+m_end = 10
+dm = 0.1
+ms = np.arange(m_ini, m_end + dm, dm)
 
 for i in range(len(y0s)):
     y0 = y0s[i]
