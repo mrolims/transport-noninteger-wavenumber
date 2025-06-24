@@ -4,6 +4,7 @@ Figures/
 Data/
 Tests
 OLD/
+.DS_Store
 
 test*
 *.out
