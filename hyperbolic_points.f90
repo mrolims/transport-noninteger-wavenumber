@@ -93,8 +93,8 @@ program search_for_fixed_points
         
         fixed_point = fixed_point / num_fixed_points
 
-        write(*,*) j, abs(x_range(1) - x_range(2)), abs(y_range(1) - y_range(2))
-        write(*,*)
+        ! write(*,*) j, abs(x_range(1) - x_range(2)), abs(y_range(1) - y_range(2))
+        ! write(*,*)
 
         if (abs(x_range(1) - x_range(2)) < TOL .and. abs(y_range(1) - y_range(2)) < TOL) then
             exit
